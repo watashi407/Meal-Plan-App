@@ -2,20 +2,184 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    
+    --primary: 180 50% 9%;  /* #0C2424 */
+    --primary-foreground: 0 0% 100%;  /* #ffffff */
+    
+    --secondary: 0 0% 96.1%;  /* #f5f5f5 */
+    --secondary-foreground: 0 0% 9%;  /* #171717 */
+    
+    --muted: 0 0% 96.1%;  /* #f5f5f5 */
+    --muted-foreground: 0 0% 45.1%;  /* #737373 */
+    
+    --accent: 180 50% 9%;  /* #0C2424 */
+    --accent-foreground: 0 0% 100%;  /* #ffffff */
+    
+    --card: 0 0% 100%;  /* #ffffff */
+    --card-foreground: 0 0% 9%;  /* #171717 */
+    
+    --border: 0 0% 89.8%;  /* #e5e5e5 */
+    --input: 0 0% 89.8%;  /* #e5e5e5 */
+    --ring: 180 50% 9%;  /* #0C2424 */
+  }
+
+  .dark {
+    --background: 180 50% 9%;  /* #0C2424 */
+    --foreground: 0 0% 98%;
+    
+    --primary: 180 50% 9%;  /* #0C2424 */
+    --primary-foreground: 0 0% 100%;  /* #ffffff */
+    
+    --secondary: 0 0% 12.2%;  /* #1f1f1f */
+    --secondary-foreground: 0 0% 92.9%;  /* #ededed */
+    
+    --muted: 0 0% 12.2%;  /* #1f1f1f */
+    --muted-foreground: 0 0% 63.9%;  /* #a3a3a3 */
+    
+    --accent: 180 50% 9%;  /* #0C2424 */
+    --accent-foreground: 0 0% 100%;  /* #ffffff */
+    
+    --card: 0 0% 9%;  /* #171717 */
+    --card-foreground: 0 0% 92.9%;  /* #ededed */
+    
+    --border: 0 0% 14.9%;  /* #262626 */
+    --input: 0 0% 14.9%;  /* #262626 */
+    --ring: 180 50% 9%;  /* #0C2424 */
+  }
+
+  * {
+    @apply border-[hsl(var(--border))];
+  }
+  
+  body {
+    @apply min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Modern system font stack for better performance and aesthetics */
+@layer base {
+  html {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+}
+
+/* Optional: Add custom font using @font-face if needed */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Optional: Use Inter as primary font if loaded */
+.font-sans {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system;
+}
+
+/* Custom theme styles */
+[data-theme='custom'] {
+  background-image: url('/images/background/signal.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+@layer components {
+  /* Dashboard Layout Components */
+  .dashboard-layout {
+    @apply flex min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
+  }
+
+  .sidebar {
+    @apply fixed left-0 top-0 z-40 h-screen w-64 border-r border-[hsl(var(--border))] bg-[hsl(var(--background))] transition-transform;
+  }
+
+  .sidebar-nav {
+    @apply flex h-full flex-col gap-2 p-4;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors
+           hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))];
+  }
+
+  .nav-item.active {
+    @apply bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))];
+  }
+
+  .main-content {
+    @apply ml-64 flex-1 p-6;
+  }
+}
+
+/* Performance Optimizations */
+@layer utilities {
+  /* Add content-visibility for better performance */
+  .optimize-paint {
+    content-visibility: auto;
+    contain: content;
+  }
+
+  /* Add GPU acceleration for animations */
+  .gpu-accelerate {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Modern system font stack */
+@layer base {
+  html {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Inter font configuration */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: optional;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Theme specific styles */
+[data-theme='custom'] {
+  background-image: url('/images/background/signal.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  @apply optimize-paint gpu-accelerate;
+}
+
+/* Next.js 14+ Specific Optimizations */
+:root {
+  --app-height: 100%;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: var(--app-height);
+  }
+}
+
+/* Prevent layout shift optimization */
+@media (prefers-reduced-motion: no-preference) {
+  :has(dialog[open]) {
+    overflow: hidden;
+  }
 }
